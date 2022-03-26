@@ -18,8 +18,10 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next, ...$permissions)
     {
 
-        for ($i = 0; $i < Auth::user()->role->permissions->count(); $i++) {
-            $userperms[$i] = Auth::user()->role->permissions[$i]->slug;
+        $userperms = [];
+
+        foreach(Auth::user()->role->permissions as $persmission) {
+            $userperms[] = $persmission->slug;
         }
 
         $allow = collect(array_intersect($permissions, $userperms));

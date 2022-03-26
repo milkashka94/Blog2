@@ -29,8 +29,8 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:3|max:40',
-            'email' => 'required|string|email',
+            'name' => 'unique:users,name|required|string|min:3|max:40',
+            'email' => 'unique:users,email|required|string|email',
             'role_id' => 'nullable|string|exists:roles,id',
             'password' => 'nullable|string|min:8|max:40'
         ];
@@ -40,9 +40,11 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name.required'=>'Логин обязателен для заполнения',
+            'name.unique'=>'Логин не уникален',
             'name.min'=>'Минимальная длинна логина - 3 символа',
             'name.max'=>'Максимальная длинна логина - 40 символов',
             'email.required'=>'Email обязателен для заполнения',
+            'email.unique'=>'Email не уникален',
             'email.email'=>'Значения поля не является email-ом',
             'role_id.exists'=>'Такой роли не существует',
             'password.min'=>'Минимальная длинна пароля - 8 символа',
